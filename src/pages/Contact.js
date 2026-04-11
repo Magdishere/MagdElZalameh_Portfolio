@@ -55,7 +55,7 @@ const Contact = () => {
             <FaMapMarkerAlt size={24} />
           </div>
           <h3 className="text-xl font-bold">Location</h3>
-          <p className="text-secondary">High meadow lane bear creek</p>
+          <p className="text-secondary">Kousba, El Koura - North Lebanon</p>
         </div>
       </div>
 
