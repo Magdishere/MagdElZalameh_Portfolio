@@ -38,6 +38,11 @@ const ManageProjects = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  const getImageUrl = (path) => {
+    if (!path) return '';
+    return path.startsWith('http') ? path : `https://my-portfolio-7mch.onrender.com${path}`;
+  };
+
   const handleOpenModal = (project = null) => {
     if (project) {
       setCurrentProject(project);
@@ -350,18 +355,6 @@ const ManageProjects = () => {
             <button 
               onClick={confirmDelete}
               className="flex-1 px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-lg font-bold transition-colors"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </Modal>
-    </div>
-  );
-};
-
-export default ManageProjects;
-nt-bold transition-colors"
             >
               Delete
             </button>

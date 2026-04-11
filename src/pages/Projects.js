@@ -29,6 +29,11 @@ const Projects = () => {
     viewport: { once: true }
   };
 
+  const getImageUrl = (path) => {
+    if (!path) return 'https://via.placeholder.com/600x400?text=MERN+Project';
+    return path.startsWith('http') ? path : `https://my-portfolio-7mch.onrender.com${path}`;
+  };
+
   return (
     <div className="py-20 space-y-12">
       <motion.div 
@@ -88,20 +93,6 @@ const Projects = () => {
                   ))}
                 </div>
               </div>
-            </motion.div>
-          )) : (
-            <div className="col-span-full py-20 text-center text-secondary font-medium">
-              No projects found. Add some in the admin dashboard!
-            </div>
-          )}
-        </motion.div>
-      )}
-    </div>
-  );
-};
-
-export default Projects;
-div>
             </motion.div>
           )) : (
             <div className="col-span-full py-20 text-center text-secondary font-medium">

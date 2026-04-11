@@ -39,6 +39,11 @@ const Home = () => {
     viewport: { once: true }
   };
 
+  const getImageUrl = (path) => {
+    if (!path) return 'https://via.placeholder.com/600x400';
+    return path.startsWith('http') ? path : `https://my-portfolio-7mch.onrender.com${path}`;
+  };
+
   return (
     <div className="space-y-24 pb-20">
       {/* Hero Section */}
@@ -379,18 +384,6 @@ const Home = () => {
                   <div>
                      <h4 className="text-xl font-bold">Address</h4>
                      <p className="text-secondary">Kousba, El Koura - North Lebanon</p>
-                     <p className="text-secondary">Mar Elias Street</p>
-                  </div>
-               </motion.div>
-            </div>
-         </div>
-      </motion.section>
-    </div>
-  );
-};
-
-export default Home;
-xt-secondary">Kousba, El Koura - North Lebanon</p>
                      <p className="text-secondary">Mar Elias Street</p>
                   </div>
                </motion.div>
