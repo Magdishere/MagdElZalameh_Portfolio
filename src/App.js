@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import axios from 'axios';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -21,6 +22,17 @@ import ManageExperience from './pages/Admin/ManageExperience';
 import Messages from './pages/Admin/Messages';
 
 function App() {
+  useEffect(() => {
+    const trackHit = async () => {
+      try {
+        await axios.post('https://my-portfolio-7mch.onrender.com/api/visitors/hit');
+      } catch (err) {
+        // silent fail
+      }
+    };
+    trackHit();
+  }, []);
+
   return (
     <Router>
       <Routes>

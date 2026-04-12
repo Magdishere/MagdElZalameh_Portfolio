@@ -94,6 +94,11 @@ export const deleteMessage = createAsyncThunk('data/deleteMessage', async (id, t
   return id;
 });
 
+export const fetchVisitorCount = createAsyncThunk('data/fetchVisitorCount', async (_, thunkAPI) => {
+  const response = await axios.get(`https://my-portfolio-7mch.onrender.com/api/visitors/count`, getAuthConfig(thunkAPI));
+  return response.data.count;
+});
+
 const dataSlice = createSlice({
   name: 'data',
   initialState: {
@@ -101,6 +106,7 @@ const dataSlice = createSlice({
     skills: [],
     experience: [],
     messages: [],
+    visitorCount: 0,
     isLoading: false,
     isError: false,
   },
@@ -138,6 +144,9 @@ const dataSlice = createSlice({
       .addCase(fetchMessages.fulfilled, (state, action) => { state.messages = action.payload; })
       .addCase(deleteMessage.fulfilled, (state, action) => {
         state.messages = state.messages.filter((m) => m._id !== action.payload);
+      })
+      .addCase(fetchVisitorCount.fulfilled, (state, action) => {
+        state.visitorCount = action.payload;
       });
   },
 });

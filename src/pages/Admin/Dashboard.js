@@ -2,20 +2,22 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaProjectDiagram, FaStar, FaEnvelope } from 'react-icons/fa';
-import { fetchProjects, fetchSkills, fetchMessages } from '../../features/dataSlice';
+import { FaProjectDiagram, FaStar, FaEnvelope, FaUsers } from 'react-icons/fa';
+import { fetchProjects, fetchSkills, fetchMessages, fetchVisitorCount } from '../../features/dataSlice';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const { projects, skills, messages } = useSelector((state) => state.data);
+  const { projects, skills, messages, visitorCount } = useSelector((state) => state.data);
 
   useEffect(() => {
     dispatch(fetchProjects());
     dispatch(fetchSkills());
     dispatch(fetchMessages());
+    dispatch(fetchVisitorCount());
   }, [dispatch]);
 
   const stats = [
+    { name: 'Total Visitors', count: visitorCount, icon: <FaUsers size={28} />, path: '/admin' },
     { name: 'Projects', count: projects.length, icon: <FaProjectDiagram size={28} />, path: '/admin/projects' },
     { name: 'Skills', count: skills.length, icon: <FaStar size={28} />, path: '/admin/skills' },
     { name: 'Messages', count: messages.length, icon: <FaEnvelope size={28} />, path: '/admin/messages' },
