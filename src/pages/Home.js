@@ -2,18 +2,28 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaGithub, FaLinkedin, FaExternalLinkAlt, FaEnvelope, FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
 import axios from 'axios';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { fetchProjects, fetchSkills, fetchExperience } from '../features/dataSlice';
 
 const Home = () => {
   const dispatch = useDispatch();
   const { projects, skills, experience } = useSelector((state) => state.data);
+  const [notification, setNotification] = React.useState(null);
 
   useEffect(() => {
     dispatch(fetchProjects());
     dispatch(fetchSkills());
     dispatch(fetchExperience());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
 
   // Group skills by category
   const categorizedSkills = skills.reduce((acc, skill) => {
@@ -46,6 +56,24 @@ const Home = () => {
 
   return (
     <div className="space-y-24 pb-20">
+      <AnimatePresence>
+        {notification && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 20 }}
+            exit={{ opacity: 0, y: -50 }}
+            className={`fixed top-0 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-xl shadow-2xl font-bold tracking-wide flex items-center gap-3 backdrop-blur-md border ${
+              notification.type === 'success' 
+                ? 'bg-green-500/20 text-green-400 border-green-500/30' 
+                : 'bg-red-500/20 text-red-400 border-red-500/30'
+            }`}
+          >
+            <div className={`w-2 h-2 rounded-full ${notification.type === 'success' ? 'bg-green-400' : 'bg-red-400'} animate-pulse`}></div>
+            {notification.message}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Hero Section */}
       <section className="relative py-12 flex flex-col md:flex-row items-center justify-between gap-12 overflow-hidden">
         {/* Decorative Background Element */}
@@ -345,10 +373,10 @@ const Home = () => {
               const data = Object.fromEntries(formData.entries());
               try {
                 await axios.post('https://my-portfolio-7mch.onrender.com/api/contacts', data);
-                alert('Message sent successfully!');
+                setNotification({ type: 'success', message: 'Message sent successfuly!' });
                 e.target.reset();
               } catch (err) {
-                alert('Failed to send message.');
+                setNotification({ type: 'error', message: 'Failed to send message.' });
               }
             }} className="space-y-6">
                <input type="text" name="name" placeholder="Your Name" required className="w-full bg-accent bg-opacity-20 border border-secondary border-opacity-20 p-4 rounded-xl focus:outline-none focus:border-primary transition-colors" />

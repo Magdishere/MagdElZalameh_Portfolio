@@ -25,7 +25,14 @@ function App() {
   useEffect(() => {
     const trackHit = async () => {
       try {
-        await axios.post('https://my-portfolio-7mch.onrender.com/api/visitors/hit');
+        // Professional Unique Tracking
+        let visitorId = localStorage.getItem('portfolio_visitor_id');
+        if (!visitorId) {
+          visitorId = 'v-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+          localStorage.setItem('portfolio_visitor_id', visitorId);
+        }
+        
+        await axios.post('https://my-portfolio-7mch.onrender.com/api/visitors/hit', { visitorId });
       } catch (err) {
         // silent fail
       }
